@@ -30,10 +30,10 @@ pub(crate) mod gecko {
         (status, resp_json)
     }
 }
+pub mod coins;
+mod macros;
 pub mod server;
 pub mod simple;
-
-//     pub mod coins {}
 //     pub mod contract {}
 //     pub mod asset_platform {}
 //     pub mod categories {}

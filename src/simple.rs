@@ -1,6 +1,5 @@
 use crate::gecko;
 use crate::gecko::vec_str_2_comma_str;
-use std::collections::hash_map::RandomState;
 use std::collections::HashMap;
 
 static mut IMC: bool = false;
@@ -76,10 +75,7 @@ pub mod last_updated {
 pub fn price(
     ids: Vec<&str>,
     vs_currencies: Vec<&str>,
-) -> (
-    reqwest::StatusCode,
-    HashMap<String, HashMap<String, f32, RandomState>, RandomState>,
-) {
+) -> (reqwest::StatusCode, HashMap<String, HashMap<String, f32>>) {
     let endpoint = "/simple/price?".to_string();
 
     let ids_str: String = ["ids", &vec_str_2_comma_str(ids)].join("=");
@@ -109,11 +105,12 @@ pub fn price(
     (status, resp_json)
 }
 
+/// Get current price of tokens (using contract addresses) for a given platform in any other currency that you need.
 pub fn token_price(
     id: &str,
     contract_addresses: Vec<&str>,
     vs_currencies: Vec<&str>,
-) -> (reqwest::StatusCode, HashMap<String, f32, RandomState>) {
+) -> (reqwest::StatusCode, HashMap<String, f32>) {
     let endpoint = ["/simple/token_price/", id, "?"].join("");
 
     let contract_addresses: String = [
@@ -144,5 +141,12 @@ pub fn token_price(
     }
 
     let (status, resp_json) = gecko::get_request(&endpoint, &params);
+    (status, resp_json)
+}
+
+/// Get list of supported_vs_currencies.
+pub fn supported_vs_currencies() -> (reqwest::StatusCode, Vec<String>) {
+    let endpoint = "/simple/supported_vs_currencies";
+    let (status, resp_json) = gecko::get_request(&endpoint, "");
     (status, resp_json)
 }

@@ -2,6 +2,14 @@
 name = "rust-gecko"
 version = "0.1.0"
 edition = "2021"
+license = "MIT"
+keywords=["coingecko", "gecko", "client"]
+categories = ["accessibility", "api-bindings"]
+description = "Rust client for CoinGecko API"
+repository = "https://github.com/nzx9/rust-gecko"
+homepage = "https://nzx9.github.io/rust-gecko/"
+readme = "README.md"
+
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 

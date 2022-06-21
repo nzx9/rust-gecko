@@ -1,37 +1,42 @@
-## Welcome to GitHub Pages
+# rust_gecko
 
-You can use the [editor on GitHub](https://github.com/nzx9/rust-gecko/edit/main/docs/index.md) to maintain and preview the content for your website in Markdown files.
+## Development Road Map
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
-
-### Markdown
-
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
-
-```markdown
-Syntax highlighted code block
-
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
-```
-
-For more details see [Basic writing and formatting syntax](https://docs.github.com/en/github/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/nzx9/rust-gecko/settings/pages). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
+| Category         | End Point                                                  | Implemented  | rust_gecko function                            | rust_gecko macro                   | Stability  | Implemented Version  |
+|----------------- |----------------------------------------------------------- |------------- |----------------------------------------------- |----------------------------------- |----------- |--------------------- |
+| ping             | /ping                                                      | True         | rust_gecko::server::ping()                     | -                                  | Stable     | 0.0.0                |
+| simple           | /simple/price                                              | True         | rust_gecko::simple::price()                    | rust_gecko::simple_price!()        | Stable     | 0.0.0                |
+| simple           | /simple/token_price/{id}                                   | True         | rust_gecko::simple::token_price()              | rust_gecko::simple_token_price!()  | Stable     | 0.0.0                |
+| simple           | /simple/supported_vs_currencies                            | True         | rust_gecko::simple::supported_vs_currencies()  | -                                  | Stable     | 0.0.0                |
+| coins            | /coins/list                                                | True         | rust_gecko::coins::list()                      | -                                  | Stable     | 0.0.1                |
+| coins            | /coins/markets                                             | True         | rust_gecko::coins::markets()                   | rust_gecko::coins_markets!()       | Stable     | 0.0.1                |
+| coins            | /coins/{id}                                                | False        |                                                |                                    |            |                      |
+| coins            | /coins/{id}/tickers                                        | False        |                                                |                                    |            |                      |
+| coins            | /coins/{id}/history                                        | False        |                                                |                                    |            |                      |
+| coins            | /coins/{id}/market_chart                                   | False        |                                                |                                    |            |                      |
+| coins            | /coins/{id}/market_chart/range                             | False        |                                                |                                    |            |                      |
+| coins            | /coins/{id}/ohlc                                           | False        |                                                |                                    |            |                      |
+| contract         | /coins/{id}/contract/{contract_address}                    | False        |                                                |                                    |            |                      |
+| contract         | /coins/{id}/contract/{contact_address}/market_chart        | False        |                                                |                                    |            |                      |
+| contract         | /coins/{id}/contract/{contact_address}/market_chart/range  | False        |                                                |                                    |            |                      |
+| asset_platforms  | /asset_platforms                                           | False        |                                                |                                    |            |                      |
+| categories       | /coins/categories/list                                     | False        |                                                |                                    |            |                      |
+| categories       | /coins/categories                                          | False        |                                                |                                    |            |                      |
+| exchanges        | /exchanges                                                 | False        |                                                |                                    |            |                      |
+| exchanges        | /exchanges/list                                            | False        |                                                |                                    |            |                      |
+| exchanges        | /exchanges/{id}                                            | False        |                                                |                                    |            |                      |
+| exchanges        | /exchanges/{id}/tickers                                    | False        |                                                |                                    |            |                      |
+| exchanges        | /exchanges/{id}/volume_chart                               | False        |                                                |                                    |            |                      |
+| indexes          | /indexes                                                   | False        |                                                |                                    |            |                      |
+| indexes          | /indexes/{market_id}/{id}                                  | False        |                                                |                                    |            |                      |
+| indexes          | /indexes/list                                              | False        |                                                |                                    |            |                      |
+| derivatives      | /derivatives                                               | False        |                                                |                                    |            |                      |
+| derivatives      | /derivatives/exchanges                                     | False        |                                                |                                    |            |                      |
+| derivatives      | /derivatives/exchanges/{id}                                | False        |                                                |                                    |            |                      |
+| derivatives      | /derivatives/exchanges/list                                | False        |                                                |                                    |            |                      |
+| exchange_rates   | /exchange_rates                                            | False        |                                                |                                    |            |                      |
+| search           | /search                                                    | False        |                                                |                                    |            |                      |
+| trending         | /search/trending                                           | False        |                                                |                                    |            |                      |
+| global           | /global                                                    | False        |                                                |                                    |            |                      |
+| global           | global/decentralized_finance_defi                          | False        |                                                |                                    |            |                      |
+| companies        | /companies/public_treasury/{coin_id}                       | False        |                                                |                                    |            |                      |

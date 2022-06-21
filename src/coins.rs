@@ -1,6 +1,7 @@
 use serde::{Deserialize, Serialize};
 
 use crate::gecko;
+use crate::types::Response;
 use std::collections::HashMap;
 
 pub enum Order {
@@ -81,14 +82,14 @@ pub struct MarketType {
     last_updated: String,
 }
 
-pub fn list() -> (reqwest::StatusCode, Vec<ListWithoutPlatformType>) {
-    let (status, resp_json) = gecko::get_request("/coins/list", "");
-    (status, resp_json)
+pub fn list() -> Response<Vec<ListWithoutPlatformType>> {
+    let response = gecko::get_request("/coins/list", "");
+    response
 }
 
-pub fn list_with_platform() -> (reqwest::StatusCode, Vec<ListWithPlatformType>) {
-    let (status, resp_json) = gecko::get_request("/coins/list", "?include_platform=true");
-    (status, resp_json)
+pub fn list_with_platform() -> Response<Vec<ListWithPlatformType>> {
+    let response = gecko::get_request("/coins/list", "?include_platform=true");
+    response
 }
 
 pub fn markets(
@@ -96,7 +97,7 @@ pub fn markets(
     ids: Option<Vec<&str>>,
     category: Option<&str>,
     order: Option<Order>,
-) -> (reqwest::StatusCode, Vec<MarketType>) {
+) -> Response<Vec<MarketType>> {
     let mut params = ["?vs_currency", vs_currency].join("=");
 
     if !ids.is_none() {
@@ -111,8 +112,8 @@ pub fn markets(
         params.push_str(&["&order", &order.unwrap().as_str()].join("="));
     }
 
-    let (status, resp_json) = gecko::get_request("/coins/markets", &params);
-    (status, resp_json)
+    let response = gecko::get_request("/coins/markets", &params);
+    response
 }
 
 /// Get current data (name, price, market, ... including exchange tickers) for a coin.

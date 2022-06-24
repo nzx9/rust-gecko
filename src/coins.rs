@@ -1,9 +1,6 @@
-use serde::{Deserialize, Serialize};
-
-use crate::gecko;
+use crate::gecko::{self, append_if, vec_str_2_comma_str};
 use crate::types::Response;
-use std::collections::HashMap;
-
+use serde_json;
 pub enum Order {
     GeckoDesc,
     GeckoAsc,
@@ -29,65 +26,28 @@ impl Order {
         }
     }
 }
-
-#[derive(Debug, Serialize, Deserialize)]
-pub struct ListWithPlatformType {
-    id: String,
-    symbol: String,
-    name: String,
-    platforms: HashMap<Option<String>, Option<String>>,
+pub enum TickersOrder {
+    TrustScoreDesc,
+    TrustScoreAsc,
+    VolumeDesc,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
-pub struct ListWithoutPlatformType {
-    id: String,
-    symbol: String,
-    name: String,
+impl TickersOrder {
+    fn as_str(&self) -> &'static str {
+        match self {
+            TickersOrder::TrustScoreDesc => "trust_score_desc",
+            TickersOrder::TrustScoreAsc => "trust_score_asc",
+            TickersOrder::VolumeDesc => "volume_desc",
+        }
+    }
 }
 
-#[derive(Debug, Serialize, Deserialize)]
-pub struct RoiType {
-    times: f64,
-    currency: String,
-    percentage: f64,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-pub struct MarketType {
-    id: String,
-    symbol: String,
-    name: String,
-    image: String,
-    current_price: f64,
-    market_cap: f64,
-    market_cap_rank: Option<u32>,
-    fully_diluted_valuation: Option<f64>,
-    total_volume: Option<f64>,
-    high_24h: f64,
-    low_24h: f64,
-    price_change_24h: f64,
-    price_change_percentage_24h: f64,
-    market_cap_change_24h: f64,
-    market_cap_change_percentage_24h: f64,
-    circulating_supply: f64,
-    total_supply: Option<f64>,
-    max_supply: Option<f64>,
-    ath: f64,
-    ath_change_percentage: f64,
-    ath_date: String,
-    atl: f64,
-    atl_change_percentage: f64,
-    atl_date: String,
-    roi: Option<RoiType>,
-    last_updated: String,
-}
-
-pub fn list() -> Response<Vec<ListWithoutPlatformType>> {
+pub fn list() -> Response<serde_json::Value> {
     let response = gecko::get_request("/coins/list", "");
     response
 }
 
-pub fn list_with_platform() -> Response<Vec<ListWithPlatformType>> {
+pub fn list_with_platform() -> Response<serde_json::Value> {
     let response = gecko::get_request("/coins/list", "?include_platform=true");
     response
 }
@@ -97,7 +57,7 @@ pub fn markets(
     ids: Option<Vec<&str>>,
     category: Option<&str>,
     order: Option<Order>,
-) -> Response<Vec<MarketType>> {
+) -> Response<serde_json::Value> {
     let mut params = ["?vs_currency", vs_currency].join("=");
 
     if !ids.is_none() {
@@ -117,10 +77,105 @@ pub fn markets(
 }
 
 /// Get current data (name, price, market, ... including exchange tickers) for a coin.
-pub fn coin() {}
+pub fn coin(
+    id: &str,
+    localization: Option<bool>,
+    tickers: Option<bool>,
+    market_data: Option<bool>,
+    community_data: Option<bool>,
+    developer_data: Option<bool>,
+    sparkline: Option<bool>,
+) -> Response<serde_json::Value> {
+    let loc = localization.unwrap_or(true);
+    let tik = tickers.unwrap_or(true);
+    let m_d = market_data.unwrap_or(true);
+    let c_d = community_data.unwrap_or(true);
+    let d_d = developer_data.unwrap_or(true);
+    let spk = sparkline.unwrap_or(false);
+
+    let mut params = gecko::append_if(
+        "?",
+        loc,
+        Some("localization=true"),
+        Some("localization=false"),
+    );
+    params = gecko::append_if(&params, tik, Some("tickers=true"), Some("tickers=false"));
+    params = gecko::append_if(
+        &params,
+        m_d,
+        Some("market_data=true"),
+        Some("market_data=false"),
+    );
+    params = gecko::append_if(
+        &params,
+        c_d,
+        Some("community_data=true"),
+        Some("community_data=false"),
+    );
+    params = gecko::append_if(
+        &params,
+        d_d,
+        Some("developer_data=true"),
+        Some("developer_data=false"),
+    );
+    params = gecko::append_if(
+        &params,
+        spk,
+        Some("sparkline=true"),
+        Some("sparkline=false"),
+    );
+
+    let response = gecko::get_request(&["/coins", id].join("/"), &params);
+    response
+}
 
 /// Get coin tickers
-pub fn tickers() {}
+pub fn tickers(
+    id: &str,
+    exchange_ids: Option<Vec<&str>>,
+    include_exchange_logo: Option<bool>,
+    page: Option<u16>,
+    order: Option<TickersOrder>,
+    depth: Option<bool>,
+) -> Response<serde_json::Value> {
+    let mut params = gecko::append_if(
+        "?",
+        !exchange_ids.is_none(),
+        Some(&["exchange_ids", &vec_str_2_comma_str(exchange_ids.unwrap())].join("=")),
+        None,
+    );
+
+    params = gecko::append_if(
+        &params,
+        include_exchange_logo.unwrap_or(false),
+        Some(&"include_exchange_logo"),
+        Some(&""),
+    );
+
+    params = gecko::append_if(
+        &params,
+        !page.is_none(),
+        Some(&["page", &page.unwrap().to_string()].join("=")),
+        Some(""),
+    );
+
+    params = gecko::append_if(
+        &params,
+        !order.is_none(),
+        Some(&["order", &order.unwrap().as_str()].join("=")),
+        Some(""),
+    );
+
+    params = gecko::append_if(
+        &params,
+        depth.unwrap_or(false),
+        Some("depth=true"),
+        Some(""),
+    );
+
+    let response = gecko::get_request(&["/coins", id, "tickers"].join("/"), &params);
+    response
+}
 
 pub fn history() {}
 

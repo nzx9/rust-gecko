@@ -53,7 +53,25 @@ pub(crate) mod gecko {
                 error: Some(e),
             },
         }
-        // (status, resp_json)
+    }
+
+    pub fn append_if(
+        param: &str,
+        check: bool,
+        append_true: Option<&str>,
+        append_false: Option<&str>,
+    ) -> String {
+        let mut output = String::new();
+        if check {
+            if !append_true.is_none() {
+                output = [param, append_true.unwrap()].join("&");
+            }
+        } else {
+            if !append_false.is_none() {
+                output = [param, append_false.unwrap()].join("&");
+            }
+        }
+        output
     }
 }
 pub mod coins;

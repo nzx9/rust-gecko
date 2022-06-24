@@ -1,7 +1,6 @@
 use crate::gecko;
 use crate::gecko::vec_str_2_comma_str;
 use crate::types::Response;
-use std::collections::HashMap;
 
 /// Get the current price of any cryptocurrencies in any other supported currencies that you need.
 pub fn price(
@@ -11,7 +10,7 @@ pub fn price(
     include_24hr_vol: Option<bool>,
     include_24hr_change: Option<bool>,
     include_last_updated_at: Option<bool>,
-) -> Response<HashMap<String, HashMap<String, f32>>> {
+) -> Response<serde_json::Value> {
     let endpoint = "/simple/price?".to_string();
     let ids_str: String = ["ids", &vec_str_2_comma_str(ids)].join("=");
     let vs_currencies_str: String =
@@ -52,7 +51,7 @@ pub fn token_price(
     include_24hr_vol: Option<bool>,
     include_24hr_change: Option<bool>,
     include_last_updated_at: Option<bool>,
-) -> Response<HashMap<String, f32>> {
+) -> Response<serde_json::Value> {
     let endpoint = ["/simple/token_price/", id, "?"].join("");
 
     let contract_addresses: String = [
@@ -90,7 +89,7 @@ pub fn token_price(
 }
 
 /// Get list of supported_vs_currencies.
-pub fn supported_vs_currencies() -> Response<Vec<String>> {
+pub fn supported_vs_currencies() -> Response<serde_json::Value> {
     let endpoint = "/simple/supported_vs_currencies";
     let response = gecko::get_request(&endpoint, "");
     response

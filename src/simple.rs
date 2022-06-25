@@ -1,6 +1,7 @@
 use crate::gecko;
 use crate::gecko::vec_str_2_comma_str;
 use crate::types::Response;
+use serde_json;
 
 /// Get the current price of any cryptocurrencies in any other supported currencies that you need.
 pub fn price(

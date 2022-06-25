@@ -1,6 +1,6 @@
 use crate::gecko;
 use crate::types::Response;
-use std::collections::HashMap;
+use serde_json;
 
 /// Check API server status
 pub fn ping() -> Response<serde_json::Value> {

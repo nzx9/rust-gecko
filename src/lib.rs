@@ -56,24 +56,25 @@ pub(crate) mod gecko {
     }
 
     pub fn append_if(
-        param: &str,
+        params: &str,
         check: bool,
         append_true: Option<&str>,
         append_false: Option<&str>,
     ) -> String {
-        let mut output = String::new();
+        let mut output = params.to_string();
         if check {
             if !append_true.is_none() {
-                output = [param, append_true.unwrap()].join("&");
+                output = [params, append_true.unwrap()].join("&");
             }
         } else {
             if !append_false.is_none() {
-                output = [param, append_false.unwrap()].join("&");
+                output = [params, append_false.unwrap()].join("&");
             }
         }
         output
     }
 }
+
 pub mod coins;
 mod macros;
 pub mod server;
@@ -85,8 +86,8 @@ pub mod types;
 //     pub mod exchanges {}
 //     pub mod indexes {}
 //     pub mod derivatives {}
-//     pub mod exchange_rates {}
-//     pub mod search {}
+pub mod exchange;
+pub mod search;
 //     pub mod trending {}
-//     pub mod global {}
+pub mod global;
 //     pub mod companies {}

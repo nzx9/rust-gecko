@@ -204,13 +204,51 @@ pub fn tickers(
     response
 }
 
-pub fn history() {}
+pub fn history(id: &str, date: &str, localization: Option<bool>) -> Response<serde_json::Value> {
+    let mut params = ["?date", date].join("=");
+    params = gecko::append_if(
+        &params,
+        localization.unwrap_or(false),
+        Some("&localization"),
+        None,
+    );
+    let response = gecko::get_request(&["/coins", id, "history"].join("/"), &params);
+    response
+}
+pub fn market_chart(
+    id: &str,
+    vs_currency: &str,
+    days: &str,
+    interval: Option<&str>,
+) -> Response<serde_json::Value> {
+    let mut params = ["?vs_currency", vs_currency, "&days", days].join("=");
+    if !interval.is_none() {
+        params.push_str(&["&interval", interval.unwrap()].join("="));
+    }
+    let response = gecko::get_request(&["/coins", id, "market_chart"].join("/"), &params);
+    response
+}
 
-pub fn market_chart() {}
+pub fn market_chart_range(
+    id: &str,
+    vs_currency: &str,
+    from: &str,
+    to: &str,
+) -> Response<serde_json::Value> {
+    let response = gecko::get_request(
+        &["/coins", id, "market_chart", "range"].join("/"),
+        &["?vs_currency", vs_currency, "&from", from, "&to", to].join("="),
+    );
+    response
+}
 
-pub fn market_chart_range() {}
-
-pub fn ohlc() {}
+pub fn ohlc(id: &str, vs_currency: &str, days: &str) -> Response<serde_json::Value> {
+    let response = gecko::get_request(
+        &["/coins", id, "ohlc"].join("/"),
+        &["?vs_currency", vs_currency, "&days", days].join("="),
+    );
+    response
+}
 
 pub fn categories(order: Option<CategoriesOrder>) -> Response<serde_json::Value> {
     let mut params = "?".to_string();

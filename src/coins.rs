@@ -1,4 +1,4 @@
-use crate::gecko::{self, append_if, vec_str_2_comma_str};
+use crate::gecko;
 use crate::types::Response;
 use serde_json;
 pub enum Order {
@@ -38,6 +38,28 @@ impl TickersOrder {
             TickersOrder::TrustScoreDesc => "trust_score_desc",
             TickersOrder::TrustScoreAsc => "trust_score_asc",
             TickersOrder::VolumeDesc => "volume_desc",
+        }
+    }
+}
+
+pub enum CategoriesOrder {
+    MarketCapDesc,
+    MarketCapAsc,
+    NameDesc,
+    NameAsc,
+    MarketCapChange24hDesc,
+    MarketCapChange24hAsc,
+}
+
+impl CategoriesOrder {
+    fn as_str(&self) -> &'static str {
+        match self {
+            CategoriesOrder::MarketCapDesc => "market_cap_desc",
+            CategoriesOrder::MarketCapAsc => "market_cap_asc",
+            CategoriesOrder::NameDesc => "name_desc",
+            CategoriesOrder::NameAsc => "name_asc",
+            CategoriesOrder::MarketCapChange24hDesc => "market_cap_change_24h_desc",
+            CategoriesOrder::MarketCapChange24hAsc => "market_cap_change_24h_asc",
         }
     }
 }
@@ -141,7 +163,9 @@ pub fn tickers(
     let mut params = gecko::append_if(
         "?",
         !exchange_ids.is_none(),
-        Some(&["exchange_ids", &vec_str_2_comma_str(exchange_ids.unwrap())].join("=")),
+        Some(&gecko::vec_str_2_comma_str(
+            exchange_ids.unwrap_or(vec![""]),
+        )),
         None,
     );
 
@@ -149,30 +173,33 @@ pub fn tickers(
         &params,
         include_exchange_logo.unwrap_or(false),
         Some(&"include_exchange_logo"),
-        Some(&""),
+        None,
     );
 
     params = gecko::append_if(
         &params,
         !page.is_none(),
-        Some(&["page", &page.unwrap().to_string()].join("=")),
-        Some(""),
+        Some(&["page", &page.unwrap_or(0).to_string()].join("=")),
+        None,
     );
 
+    println!("params: {}", params);
     params = gecko::append_if(
         &params,
         !order.is_none(),
-        Some(&["order", &order.unwrap().as_str()].join("=")),
-        Some(""),
+        Some(
+            &[
+                "order",
+                order.unwrap_or(TickersOrder::TrustScoreDesc).as_str(),
+            ]
+            .join("="),
+        ),
+        None,
     );
+    println!("params: {}", params);
+    params = gecko::append_if(&params, depth.unwrap_or(false), Some("depth=true"), None);
 
-    params = gecko::append_if(
-        &params,
-        depth.unwrap_or(false),
-        Some("depth=true"),
-        Some(""),
-    );
-
+    println!("params: {}", params);
     let response = gecko::get_request(&["/coins", id, "tickers"].join("/"), &params);
     response
 }
@@ -184,3 +211,17 @@ pub fn market_chart() {}
 pub fn market_chart_range() {}
 
 pub fn ohlc() {}
+
+pub fn categories(order: Option<CategoriesOrder>) -> Response<serde_json::Value> {
+    let mut params = "?".to_string();
+    if !order.is_none() {
+        params.push_str(&["order", order.unwrap().as_str()].join("="));
+    }
+    let response = gecko::get_request("/coins/categories", &params);
+    response
+}
+
+pub fn categories_list() -> Response<serde_json::Value> {
+    let response = gecko::get_request("/coins/categories/list", "");
+    response
+}

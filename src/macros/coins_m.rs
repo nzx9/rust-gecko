@@ -23,3 +23,78 @@ macro_rules! coins_markets {
         crate::rust_gecko::coins::markets($vs_currency, $ids, $category, $order)
     };
 }
+
+/// Get coin tickers (paginated to 100 items)
+///
+/// Equivalent to the [`crate::coins::tickers`] function.
+///
+/// # Examples
+///
+/// ```
+/// rust_gecko::coins_tickers!("bitcoin");
+/// ```
+#[macro_export]
+macro_rules! coins_tickers {
+    ($id: expr) => {
+        crate::rust_gecko::coins::tickers($id, None, None, None, None, None)
+    };
+    ($id: expr,
+    $exchange_ids: expr) => {
+        crate::rust_gecko::coins::tickers($id, $exchange_ids, None, None, None, None)
+    };
+    ($id: expr,
+    $exchange_ids: expr,
+    $include_exchange_logo: expr) => {
+        crate::rust_gecko::coins::tickers(
+            $id,
+            $exchange_ids,
+            $include_exchange_logo,
+            None,
+            None,
+            None,
+        )
+    };
+    ($id: expr,
+    $exchange_ids: expr,
+    $include_exchange_logo: expr,
+    $page: expr) => {
+        crate::rust_gecko::coins::tickers(
+            $id,
+            $exchange_ids,
+            $include_exchange_logo,
+            $page,
+            None,
+            None,
+        )
+    };
+    ($id: expr,
+    $exchange_ids: expr,
+    $include_exchange_logo: expr,
+    $page: expr,
+    $order: expr) => {
+        crate::rust_gecko::coins::tickers
+            * (
+                $id,
+                $exchange_ids,
+                $include_exchange_logo,
+                $page,
+                $order,
+                None,
+            )
+    };
+    ($id: expr,
+    $exchange_ids: expr,
+    $include_exchange_logo: expr,
+    $page: expr,
+    $order: expr,
+    $depth: expr) => {
+        crate::rust_gecko::coins::tickers(
+            $id,
+            $exchange_ids,
+            $include_exchange_logo,
+            $page,
+            $order,
+            $depth,
+        )
+    };
+}

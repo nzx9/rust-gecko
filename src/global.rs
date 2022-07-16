@@ -7,7 +7,7 @@ pub fn get() -> Response<serde_json::Value> {
     response
 }
 
-pub fn decentralized_finance_defi() -> Response<serde_json::Value> {
+pub fn defi() -> Response<serde_json::Value> {
     let response = gecko::get_request("/global/decentralized_finance_defi", "");
     response
 }

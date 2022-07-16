@@ -16,7 +16,7 @@ macro_rules! simple_price {
     ($ids: expr,
         $vs_currencies: expr,
         $include_market_cap:expr,
-        $include_24hr_vol: expr,) => {
+        $include_24hr_vol: expr) => {
         crate::rust_gecko::simple::price(
             $ids,
             $vs_currencies,
@@ -29,7 +29,7 @@ macro_rules! simple_price {
     ($ids: expr,
         $vs_currencies: expr,
         $include_market_cap:expr,
-        $include_24hr_vol: expr,
+        $include_24hr_vol: expr
         ) => {
         crate::rust_gecko::simple::price(
             $ids,
@@ -84,7 +84,7 @@ macro_rules! simple_price {
 macro_rules! simple_token_price {
     ($id: expr,
         $contract_addresses: expr,
-        $vs_currencies: expr,) => {
+        $vs_currencies: expr) => {
         crate::rust_gecko::simple::token_price(
             $id,
             $contract_addresses,

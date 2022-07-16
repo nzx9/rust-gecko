@@ -75,7 +75,7 @@ pub(crate) mod gecko {
     }
 }
 
-pub mod asset_platform;
+pub mod asset_platforms;
 pub mod categories;
 pub mod coins;
 pub mod companies;

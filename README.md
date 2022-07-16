@@ -2,70 +2,69 @@
 
 Rust client for CoinGecko API
 
-**This package is still under development.**
+## Available Mods
 
-## Endpoint Implementation Roadmap
-
-| Category         | End Point                                                  | Implemented  | rust_gecko function                            | rust_gecko macro                   | Stability  | Implemented Version  |
-|----------------- |----------------------------------------------------------- |------------- |----------------------------------------------- |----------------------------------- |----------- |--------------------- |
-| ping             | /ping                                                      | True         | rust_gecko::server::ping()                     | -                                  | Stable     | 0.0.0                |
-| simple           | /simple/price                                              | True         | rust_gecko::simple::price()                    | rust_gecko::simple_price!()        | Stable     | 0.0.0                |
-| simple           | /simple/token_price/{id}                                   | True         | rust_gecko::simple::token_price()              | rust_gecko::simple_token_price!()  | Stable     | 0.0.0                |
-| simple           | /simple/supported_vs_currencies                            | True         | rust_gecko::simple::supported_vs_currencies()  | -                                  | Stable     | 0.0.0                |
-| coins            | /coins/list                                                | True         | rust_gecko::coins::list()                      | -                                  | Stable     | 0.0.1                |
-| coins            | /coins/markets                                             | True         | rust_gecko::coins::markets()                   | rust_gecko::coins_markets!()       | Stable     | 0.0.1                |
-| coins            | /coins/{id}                                                | False        |                                                |                                    |            |                      |
-| coins            | /coins/{id}/tickers                                        | False        |                                                |                                    |            |                      |
-| coins            | /coins/{id}/history                                        | False        |                                                |                                    |            |                      |
-| coins            | /coins/{id}/market_chart                                   | False        |                                                |                                    |            |                      |
-| coins            | /coins/{id}/market_chart/range                             | False        |                                                |                                    |            |                      |
-| coins            | /coins/{id}/ohlc                                           | False        |                                                |                                    |            |                      |
-| contract         | /coins/{id}/contract/{contract_address}                    | False        |                                                |                                    |            |                      |
-| contract         | /coins/{id}/contract/{contact_address}/market_chart        | False        |                                                |                                    |            |                      |
-| contract         | /coins/{id}/contract/{contact_address}/market_chart/range  | False        |                                                |                                    |            |                      |
-| asset_platforms  | /asset_platforms                                           | False        |                                                |                                    |            |                      |
-| categories       | /coins/categories/list                                     | False        |                                                |                                    |            |                      |
-| categories       | /coins/categories                                          | False        |                                                |                                    |            |                      |
-| exchanges        | /exchanges                                                 | False        |                                                |                                    |            |                      |
-| exchanges        | /exchanges/list                                            | False        |                                                |                                    |            |                      |
-| exchanges        | /exchanges/{id}                                            | False        |                                                |                                    |            |                      |
-| exchanges        | /exchanges/{id}/tickers                                    | False        |                                                |                                    |            |                      |
-| exchanges        | /exchanges/{id}/volume_chart                               | False        |                                                |                                    |            |                      |
-| indexes          | /indexes                                                   | False        |                                                |                                    |            |                      |
-| indexes          | /indexes/{market_id}/{id}                                  | False        |                                                |                                    |            |                      |
-| indexes          | /indexes/list                                              | False        |                                                |                                    |            |                      |
-| derivatives      | /derivatives                                               | False        |                                                |                                    |            |                      |
-| derivatives      | /derivatives/exchanges                                     | False        |                                                |                                    |            |                      |
-| derivatives      | /derivatives/exchanges/{id}                                | False        |                                                |                                    |            |                      |
-| derivatives      | /derivatives/exchanges/list                                | False        |                                                |                                    |            |                      |
-| exchange_rates   | /exchange_rates                                            | False        |                                                |                                    |            |                      |
-| search           | /search                                                    | False        |                                                |                                    |            |                      |
-| trending         | /search/trending                                           | False        |                                                |                                    |            |                      |
-| global           | /global                                                    | False        |                                                |                                    |            |                      |
-| global           | global/decentralized_finance_defi                          | False        |                                                |                                    |            |                      |
-| companies        | /companies/public_treasury/{coin_id}                       | False        |                                                |                                    |            |                      |
+1. server
+2. simple
+3. coins
+4. contract
+5. asset_platforms
+6. categories
+7. exchanges
+8. indexes
+9. derivatives
+10. exchange_rates
+11. search
+12. trending
+13. global
+14. companies
 
 ## Versions
 
-| Version  | Stable/Unstable  | Change log  | Info                                                      |
-|--------- |----------------- |------------ |---------------------------------------------------------- |
-| 0.0.0    | Unstable         |             | First release of the rust_gecko. Still under development  |
-| 0.0.1    | Unstable         |             |                                                           |
-|          |                  |             |                                                           |
+| Version  | Stable/Unstable  |  Remark                                                   |
+|--------- |----------------- |---------------------------------------------------------- |
+| 0.0.0    | Unstable         | First release of the rust_gecko. Still under development  |
+| 0.0.1    | Unstable         | Unstable release with the few endpoints                   |
+| | | |
+| 0.1.0    | Stable           | Completed implementing all the endpoints available as 2022/07/16 on coingecko API |
 
-## Completed End Points
+## Endpoint Implementation Roadmap
 
-1. ping - Done
-2. simple -Done
-3. coins - Done
-4. contract - Done
-5. asset_platform - Done
-6. categories - Done
-7. exchanges - Done
-8. indexes - Done
-9. derivatives - Done
-10. exchange_rates - Done
-11. search - Done
-12. trending - Done
-13. global - Done
-14. companies - Done
+| Category  | End Point  | rust_gecko function  |
+|:---: |:---: |:---: |
+| ping  | /ping  | rust_gecko::server::ping()  |
+| simple  | /simple/price  | rust_gecko::simple::price()  |
+| simple  | /simple/token_price/{id}  | rust_gecko::simple::token_price()  |
+| simple  | /simple/supported_vs_currencies  | rust_gecko::simple::supported_vs_currencies()  |
+| coins  | /coins/list  | rust_gecko::coins::list()  |
+| coins  | /coins/markets  | rust_gecko::coins::markets()  |
+| coins  | /coins/{id}  | rust_gecko::coins::get()  |
+| coins  | /coins/{id}/tickers  | rust_gecko::coins::tickers()  |
+| coins  | /coins/{id}/history  | rust_gecko::coins::history()  |
+| coins  | /coins/{id}/market_chart  | rust_gecko::coins::market_chart()  |
+| coins  | /coins/{id}/market_chart/range  | rust_gecko::coins::market_chart_range()  |
+| coins  | /coins/{id}/ohlc  | rust_gecko::coins::ohlc()  |
+| contract  | /coins/{id}/contract/{contract_address}  | rust_gecko::contract::get()  |
+| contract  | /coins/{id}/contract/{contact_address}/market_chart  | rust_gecko::contract::market_chart()  |
+| contract  | /coins/{id}/contract/{contact_address}/market_chart/range  | rust_gecko::contract::market_chart_range()  |
+| asset_platforms  | /asset_platforms  | rust_gecko::asset_platforms::get()  |
+| categories  | /coins/categories/list  | rust_gecko::categories::list()  |
+| categories  | /coins/categories  | rust_gecko::categories::get()  |
+| exchanges  | /exchanges  | rust_gecko::exchanges::get()  |
+| exchanges  | /exchanges/list  | rust_gecko::exchanges::list()  |
+| exchanges  | /exchanges/{id}  | rust_gecko::exchanges::by_id()  |
+| exchanges  | /exchanges/{id}/tickers  | rust_gecko::exchanges::tickers()  |
+| exchanges  | /exchanges/{id}/volume_chart  | rust_gecko::exchanges::volume_chart()  |
+| indexes  | /indexes  | rust_gecko::indexes::get()  |
+| indexes  | /indexes/{market_id}/{id}  | rust_gecko::indexes::by_id()  |
+| indexes  | /indexes/list  | rust_gecko::indexes::list()  |
+| derivatives  | /derivatives  | rust_gecko::derivatives::get()  |
+| derivatives  | /derivatives/exchanges  | rust_gecko::derivatives::exchanges()  |
+| derivatives  | /derivatives/exchanges/{id}  | rust_gecko::derivatives::exchanges_id()  |
+| derivatives  | /derivatives/exchanges/list  | rust_gecko::derivatives::exchanges_list()  |
+| exchange_rates  | /exchange_rates  | rust_gecko::exchange_rates::get()  |
+| search  | /search  | rust_gecko::search::get()  |
+| trending  | /search/trending  | rust_gecko::trending::get()  |
+| global  | /global  | rust_gecko::global::get()  |
+| global  | /global/decentralized_finance_defi  | rust_gecko::global::defi()  |
+| companies  | /companies/public_treasury/{coin_id}  | rust_gecko::companies::get()  |

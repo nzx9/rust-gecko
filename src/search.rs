@@ -7,7 +7,3 @@ pub fn query(query: &str) -> Response<serde_json::Value> {
     response
 }
 
-pub fn trending() -> Response<serde_json::Value> {
-    let response = gecko::get_request("/search/trending", "");
-    response
-}

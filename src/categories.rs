@@ -24,7 +24,7 @@ impl Order {
     }
 }
 
-pub fn categories(order: Option<Order>) -> Response<serde_json::Value> {
+pub fn get(order: Option<Order>) -> Response<serde_json::Value> {
     let mut params = "?".to_string();
     if !order.is_none() {
         params.push_str(&["order", order.unwrap().as_str()].join("="));
@@ -33,7 +33,7 @@ pub fn categories(order: Option<Order>) -> Response<serde_json::Value> {
     response
 }
 
-pub fn categories_list() -> Response<serde_json::Value> {
+pub fn list() -> Response<serde_json::Value> {
     let response = gecko::get_request("/coins/categories/list", "");
     response
 }

@@ -77,7 +77,7 @@ pub fn markets(
 }
 
 /// Get current data (name, price, market, ... including exchange tickers) for a coin.
-pub fn coin(
+pub fn get(
     id: &str,
     localization: Option<bool>,
     tickers: Option<bool>,

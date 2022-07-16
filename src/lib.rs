@@ -75,19 +75,21 @@ pub(crate) mod gecko {
     }
 }
 
+pub mod asset_platform;
+pub mod categories;
 pub mod coins;
-mod macros;
+pub mod companies;
+pub mod contract;
+pub mod derivatives;
+pub mod exchange_rates;
+pub mod exchanges;
+pub mod global;
+pub mod indexes;
+pub mod search;
 pub mod server;
 pub mod simple;
+pub mod trending;
 pub mod types;
-//     pub mod contract {}
-//     pub mod asset_platform {}
-//     pub mod categories {}
-//     pub mod exchanges {}
-//     pub mod indexes {}
-//     pub mod derivatives {}
-pub mod exchange;
-pub mod search;
-//     pub mod trending {}
-pub mod global;
-//     pub mod companies {}
+
+// mod for macros
+mod macros;

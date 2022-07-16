@@ -42,13 +42,14 @@ impl TickersOrder {
     }
 }
 
-pub fn list() -> Response<serde_json::Value> {
-    let response = gecko::get_request("/coins/list", "");
-    response
-}
-
-pub fn list_with_platform() -> Response<serde_json::Value> {
-    let response = gecko::get_request("/coins/list", "?include_platform=true");
+pub fn list(include_platform: Option<bool>) -> Response<serde_json::Value> {
+    let params = gecko::append_if(
+        &mut String::from("?"),
+        !include_platform.is_none(),
+        Some(&["include_platform", &include_platform.unwrap().to_string()].join("=")),
+        None,
+    );
+    let response = gecko::get_request("/coins/list", &params);
     response
 }
 

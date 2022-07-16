@@ -24,8 +24,8 @@ pub fn get(per_page: Option<usize>, page: Option<usize>) -> Response<serde_json:
     response
 }
 
-pub fn indexes(market_id: &str, id: &str) -> Response<serde_json::Value> {
-    let url = String::from(["/indexes", market_id, id].join("="));
+pub fn by_id(market_id: &str, id: &str) -> Response<serde_json::Value> {
+    let url = String::from(["/indexes", market_id, id].join("/"));
 
     let response = gecko::get_request(&url, "");
     response

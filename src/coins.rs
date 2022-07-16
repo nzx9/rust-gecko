@@ -42,28 +42,6 @@ impl TickersOrder {
     }
 }
 
-pub enum CategoriesOrder {
-    MarketCapDesc,
-    MarketCapAsc,
-    NameDesc,
-    NameAsc,
-    MarketCapChange24hDesc,
-    MarketCapChange24hAsc,
-}
-
-impl CategoriesOrder {
-    fn as_str(&self) -> &'static str {
-        match self {
-            CategoriesOrder::MarketCapDesc => "market_cap_desc",
-            CategoriesOrder::MarketCapAsc => "market_cap_asc",
-            CategoriesOrder::NameDesc => "name_desc",
-            CategoriesOrder::NameAsc => "name_asc",
-            CategoriesOrder::MarketCapChange24hDesc => "market_cap_change_24h_desc",
-            CategoriesOrder::MarketCapChange24hAsc => "market_cap_change_24h_asc",
-        }
-    }
-}
-
 pub fn list() -> Response<serde_json::Value> {
     let response = gecko::get_request("/coins/list", "");
     response
@@ -183,7 +161,6 @@ pub fn tickers(
         None,
     );
 
-    println!("params: {}", params);
     params = gecko::append_if(
         &params,
         !order.is_none(),
@@ -196,10 +173,8 @@ pub fn tickers(
         ),
         None,
     );
-    println!("params: {}", params);
     params = gecko::append_if(&params, depth.unwrap_or(false), Some("depth=true"), None);
 
-    println!("params: {}", params);
     let response = gecko::get_request(&["/coins", id, "tickers"].join("/"), &params);
     response
 }
@@ -247,19 +222,5 @@ pub fn ohlc(id: &str, vs_currency: &str, days: &str) -> Response<serde_json::Val
         &["/coins", id, "ohlc"].join("/"),
         &["?vs_currency", vs_currency, "&days", days].join("="),
     );
-    response
-}
-
-pub fn categories(order: Option<CategoriesOrder>) -> Response<serde_json::Value> {
-    let mut params = "?".to_string();
-    if !order.is_none() {
-        params.push_str(&["order", order.unwrap().as_str()].join("="));
-    }
-    let response = gecko::get_request("/coins/categories", &params);
-    response
-}
-
-pub fn categories_list() -> Response<serde_json::Value> {
-    let response = gecko::get_request("/coins/categories/list", "");
     response
 }

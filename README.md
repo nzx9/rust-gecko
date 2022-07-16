@@ -52,3 +52,20 @@ Rust client for CoinGecko API
 | 0.0.0    | Unstable         |             | First release of the rust_gecko. Still under development  |
 | 0.0.1    | Unstable         |             |                                                           |
 |          |                  |             |                                                           |
+
+## Completed End Points
+
+1. ping - Done
+2. simple -Done
+3. coins - Done
+4. contract - Done
+5. asset_platform - Done
+6. categories - Done
+7. exchanges - Done
+8. indexes - Done
+9. derivatives - Done
+10. exchange_rates - Done
+11. search - Done
+12. trending - Done
+13. global - Done
+14. companies - Done

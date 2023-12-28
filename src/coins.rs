@@ -197,7 +197,7 @@ pub fn market_chart(
     days: &str,
     interval: Option<&str>,
 ) -> Response<serde_json::Value> {
-    let mut params = ["?vs_currency", vs_currency, "&days", days].join("=");
+    let mut params = ["?vs_currency=", vs_currency, "&days=", days].join("");
     if !interval.is_none() {
         params.push_str(&["&interval", interval.unwrap()].join("="));
     }
@@ -224,4 +224,15 @@ pub fn ohlc(id: &str, vs_currency: &str, days: &str) -> Response<serde_json::Val
         &["?vs_currency", vs_currency, "&days", days].join("="),
     );
     response
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_market_chart() {
+        let response = market_chart("bitcoin", "usd", "1", Some("daily"));
+        assert!(response.is_success);
+    }
 }
